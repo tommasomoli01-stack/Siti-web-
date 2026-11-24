@@ -89,15 +89,19 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 @media(max-width:860px){.nav a.l{display:none}.brand small{display:none}}
 
 /* ---------- hero ---------- */
-.hero{position:relative;overflow-x:clip;padding-block:clamp(2.5rem,6vw,5rem) clamp(3rem,7vw,6rem);isolation:isolate}
-.aura{position:absolute;inset:-120px 0 -160px;z-index:-1;overflow:hidden;pointer-events:none;-webkit-mask-image:linear-gradient(180deg,#000 55%,transparent);mask-image:linear-gradient(180deg,#000 55%,transparent)}
+.hero{position:relative;overflow-x:clip;padding-block:clamp(2.5rem,6vw,5rem) clamp(3rem,7vw,6rem)}
+#gl{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;display:block}
+main,.ft{position:relative;z-index:1}
+.bgfx{position:absolute;top:0;left:0;right:0;height:1250px;z-index:-1;overflow:hidden;pointer-events:none}
+.gl-on .mark-stage .orb,.gl-on .mark-stage svg.big{opacity:0;transition:opacity 1.4s var(--ease) .5s}
+.aura{position:absolute;inset:0;overflow:hidden;pointer-events:none;-webkit-mask-image:linear-gradient(180deg,#000 55%,transparent);mask-image:linear-gradient(180deg,#000 55%,transparent)}
 .aura i{position:absolute;border-radius:50%;filter:blur(70px);opacity:.75}
 .aura .a1{width:52vw;height:52vw;max-width:720px;max-height:720px;right:-6vw;top:2%;background:radial-gradient(circle,#3a46c9 0%,transparent 66%)}
 .aura .a2{width:36vw;height:36vw;max-width:520px;max-height:520px;right:4vw;top:6%;background:radial-gradient(circle,#6b3fc2 0%,transparent 66%)}
 .aura .a3{width:40vw;height:40vw;max-width:560px;max-height:560px;right:16vw;top:30%;background:radial-gradient(circle,#1f6fae 0%,transparent 66%)}
 @keyframes drift{to{transform:translate(-6%,8%) scale(1.08)}}
 .aura::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 80% at 70% 30%,transparent 40%,var(--bg) 85%)}
-.grain{position:absolute;inset:-120px 0 0;-webkit-mask-image:linear-gradient(180deg,#000 40%,transparent);mask-image:linear-gradient(180deg,#000 40%,transparent);z-index:-1;opacity:.06;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.grain{position:absolute;inset:0;-webkit-mask-image:linear-gradient(180deg,#000 40%,transparent);mask-image:linear-gradient(180deg,#000 40%,transparent);opacity:.06;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(2rem,4vw,4rem);align-items:center}
 .hero-copy{display:flex;flex-direction:column;gap:1.6rem;min-width:0}
 .hero h1{font-size:clamp(2.3rem,5.4vw,4.6rem);line-height:1.02;font-weight:600;letter-spacing:-.035em}
@@ -417,6 +421,9 @@ fieldset.f{border:0;margin:0;padding:0}
   </defs>
 </svg>
 
+<div class="bgfx" aria-hidden="true"><div class="aura"><i class="a1"></i><i class="a2"></i><i class="a3"></i></div><div class="grain"></div></div>
+<canvas id="gl" aria-hidden="true"></canvas>
+
 <header class="hd" id="hd">
   <div class="wrap">
     <a class="brand" href="#top" aria-label="Studio Tedo, torna all'inizio">
@@ -436,8 +443,6 @@ fieldset.f{border:0;margin:0;padding:0}
 <main id="top">
   <!-- HERO -->
   <section class="hero">
-    <div class="aura" aria-hidden="true"><i class="a1"></i><i class="a2"></i><i class="a3"></i></div>
-    <div class="grain" aria-hidden="true"></div>
     <div class="wrap hero-grid">
       <div class="hero-copy">
         <span class="eyebrow">Studio digitale · Torino</span>
@@ -747,7 +752,7 @@ fieldset.f{border:0;margin:0;padding:0}
   var items = list.querySelectorAll('.svc'), dotEls = dots.querySelectorAll('button');
   var cur = -1, user = false, t0 = 0, DUR = 6000, visible = false, raf;
   function go(i){
-    cur = i; t0 = performance.now();
+    cur = i; window.TEDO = {svc: i}; t0 = performance.now();
     items.forEach(function(el,k){ var on = k===i; el.classList.toggle('on', on); el.querySelector('button').setAttribute('aria-expanded', on); el.style.setProperty('--p', user||reduce ? 1 : 0); });
     dotEls.forEach(function(el,k){ el.classList.toggle('on', k===i); if(k===i) el.setAttribute('aria-current','true'); else el.removeAttribute('aria-current'); });
     scrs.forEach(function(el){ el.classList.toggle('on', +el.dataset.i === i); });
@@ -861,6 +866,140 @@ fieldset.f{border:0;margin:0;padding:0}
     });
   }
 })();
+</script>
+<script type="module">
+/* ---------- particelle: il marchio TEDO nell'hero, una forma per ogni servizio, polvere luminosa altrove ---------- */
+const cv = document.getElementById('gl');
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let THREE = null;
+if (!RM) { try { THREE = await import('https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js'); } catch (e) {} }
+let renderer = null;
+if (THREE) { try { renderer = new THREE.WebGLRenderer({canvas: cv, antialias: false, alpha: true, powerPreference: 'high-performance'}); } catch (e) {} }
+if (renderer) {
+  const small = innerWidth < 760;
+  const N = small ? 2600 : 5200;
+  const TAU = Math.PI * 2;
+  let seed = 11;
+  const rnd = () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+  const gauss = () => { let u = 0, v = 0; while (!u) u = rnd(); while (!v) v = rnd(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(TAU * v); };
+  const make = fn => { const a = new Float32Array(N * 3); for (let i = 0; i < N; i++) { const p = fn(i); a[i*3] = p[0]; a[i*3+1] = p[1]; a[i*3+2] = p[2]; } return a; };
+
+  /* 1 · il marchio: campiono i pixel delle lettere e applico lo stesso taglio dell'SVG */
+  const logoX = new Float32Array(N);
+  const logo = (() => {
+    const S = 2, W = 430 * S, H = 100 * S, c = document.createElement('canvas'); c.width = W; c.height = H;
+    const x = c.getContext('2d', {willReadFrequently: true});
+    x.scale(S, S); x.fillStyle = '#fff';
+    x.fill(new Path2D(document.querySelector('#letters').getAttribute('d')), 'evenodd');
+    const d = x.getImageData(0, 0, W, H).data;
+    return make(i => {
+      if (i % 9 === 0) { const px = -66 + rnd() * 562; logoX[i] = px; return [px - 215, -(48.1 - 50) + gauss() * .5, gauss() * 2]; }
+      let px, py, k = 0;
+      do { px = rnd() * 430; py = rnd() * 100; k++; } while (d[((py * S | 0) * W + (px * S | 0)) * 4 + 3] < 128 && k < 200);
+      if (py < 48) px -= 14;
+      logoX[i] = px;
+      return [px - 215, -(py - 50), gauss() * 3.5];
+    });
+  })();
+
+  /* 2 · forme dei servizi, nello stesso ordine del tour */
+  const globe = make(i => { const R = 1; if (i % 3) { const lat = (Math.floor(rnd() * 9) / 8 - .5) * Math.PI * .9, lon = rnd() * TAU; return [R*Math.cos(lat)*Math.cos(lon), R*Math.sin(lat), R*Math.cos(lat)*Math.sin(lon)]; } const lon = Math.floor(rnd() * 12) / 12 * TAU, lat = (rnd() - .5) * Math.PI; return [R*Math.cos(lat)*Math.cos(lon), R*Math.sin(lat), R*Math.cos(lat)*Math.sin(lon)]; });
+  const bars = make(i => { const g = 5, cx = Math.floor(rnd()*g), cz = Math.floor(rnd()*g), h = .25 + (Math.sin(cx*1.7 + cz*.9) * .5 + .5) * 1.5, w = .26, u = (rnd() - .5) * w, y = rnd() * h, X = (cx - 2) * .46, Z = (cz - 2) * .46, f = Math.floor(rnd() * 5); const b = -.9; return f === 4 ? [X + u, h + b, Z + (rnd() - .5) * w] : f === 0 ? [X - w/2, y + b, Z + u] : f === 1 ? [X + w/2, y + b, Z + u] : f === 2 ? [X + u, y + b, Z - w/2] : [X + u, y + b, Z + w/2]; });
+  const neural = (() => { const C = []; for (let c = 0; c < 12; c++) { const a = rnd() * TAU, b = Math.acos(rnd() * 2 - 1); C.push([Math.sin(b)*Math.cos(a), Math.cos(b), Math.sin(b)*Math.sin(a)]); } return make(i => { if (i % 4 === 0) { const a = C[Math.floor(rnd()*C.length)], b = C[Math.floor(rnd()*C.length)], t = rnd(); return [a[0] + (b[0]-a[0])*t, a[1] + (b[1]-a[1])*t, a[2] + (b[2]-a[2])*t]; } const c = C[i % C.length]; return [c[0] + gauss()*.1, c[1] + gauss()*.1, c[2] + gauss()*.1]; }); })();
+  const pages = make(i => { const p = i % 3, w = 1.2, h = 1.55, off = (p - 1) * .32; const k = rnd(); let x, y; if (k < .3) { const s = rnd() * 2 * (w + h); if (s < w) { x = s; y = 0; } else if (s < w + h) { x = w; y = s - w; } else if (s < 2*w + h) { x = s - w - h; y = h; } else { x = 0; y = s - 2*w - h; } } else { const line = Math.floor(rnd() * 9); y = .2 + line * .15; x = .15 + rnd() * (line % 3 === 2 ? .55 : .9); } return [x - w/2 + off * .7, y - h/2 - off * .35, off]; });
+  const social = make(i => { if (i % 6 === 0) { const a = rnd() * TAU, R = 1.25 + gauss() * .05; return [R*Math.cos(a), gauss() * .04, R*Math.sin(a)]; } const u = rnd() * TAU, v = rnd() * TAU, R = .78, r = .24; return [(R + r*Math.cos(v))*Math.cos(u), r*Math.sin(v), (R + r*Math.cos(v))*Math.sin(u)]; });
+  const bulb = make(i => { const k = rnd(); if (k < .62) { const a = rnd()*TAU, c = rnd()*2 - 1, s = Math.sqrt(1 - c*c), R = .62; let y = c*R + .3; if (y < -.12) y = -.12 + (y + .12) * .3; return [s*Math.cos(a)*R, y, s*Math.sin(a)*R]; } if (k < .9) { const a = rnd()*TAU, y = -.2 - rnd() * .55, r = .26 + (Math.sin(y * 40) > .6 ? .03 : 0); return [Math.cos(a)*r, y, Math.sin(a)*r]; } const t = rnd(); return [(t - .5) * .34, .24 + Math.sin(t * Math.PI * 6) * .06, 0]; });
+  const field = make(i => { const L = 1.25, W = .82, k = rnd(); let x, z; if (k < .4) { const s = rnd() * 2 * (L + W) * 2, P = 2*L, Q = 2*W; if (s < P) { x = s - L; z = -W; } else if (s < 2*P) { x = s - P - L; z = W; } else if (s < 2*P + Q) { x = -L; z = s - 2*P - W; } else { x = L; z = s - 2*P - Q - W; } } else if (k < .5) { x = 0; z = (rnd()*2 - 1) * W; } else if (k < .62) { const a = rnd()*TAU; x = Math.cos(a) * .26; z = Math.sin(a) * .26; } else { x = (rnd()*2 - 1) * L; z = (rnd()*2 - 1) * W; } return [x, 0, z]; });
+  /* 3 · polvere: occupa lo schermo, scala fissa */
+  const dust = make(i => [(rnd() - .5) * 16, (rnd() - .5) * 9, (rnd() - .5) * 6]);
+
+  const SVC = [globe, bars, neural, pages, social, bulb, field];
+  const SVC_TILT = [.35, .5, .2, .15, .55, .1, .9];
+
+  /* colori: gradiente del logo (blu → ciano → viola) con qualche punto quasi bianco */
+  const cA = new THREE.Color('#7c84ff'), cB = new THREE.Color('#64c3f5'), cC = new THREE.Color('#b48cff'), cW = new THREE.Color('#e6ecff');
+  const col = new Float32Array(N * 3), spd = new Float32Array(N), sz = new Float32Array(N), ph = new Float32Array(N);
+  const tmp = new THREE.Color();
+  for (let i = 0; i < N; i++) {
+    const t = Math.min(1, Math.max(0, logoX[i] / 430));
+    if (t < .48) tmp.copy(cA).lerp(cB, t / .48); else tmp.copy(cB).lerp(cC, (t - .48) / .52);
+    if (rnd() < .14) tmp.lerp(cW, .7);
+    col[i*3] = tmp.r; col[i*3+1] = tmp.g; col[i*3+2] = tmp.b;
+    spd[i] = .03 + rnd() * .05;
+    const q = rnd(); sz[i] = .8 + q * q * q * 3; ph[i] = rnd() * TAU;
+  }
+  const pos = new Float32Array(dust);
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
+  geo.setAttribute('aSize', new THREE.BufferAttribute(sz, 1));
+  geo.setAttribute('aPhase', new THREE.BufferAttribute(ph, 1));
+  const mat = new THREE.ShaderMaterial({
+    uniforms: {uTime: {value: 0}, uPR: {value: 1}, uOpacity: {value: .6}, uSize: {value: 1}, uFloat: {value: 0}},
+    vertexShader: `attribute float aSize; attribute float aPhase; attribute vec3 color; uniform float uTime; uniform float uPR; uniform float uSize; uniform float uFloat; varying vec3 vC; varying float vA;
+      void main(){
+        vec3 p = position + vec3(sin(uTime*.7 + aPhase), cos(uTime*.55 + aPhase*1.3), sin(uTime*.4 + aPhase*.7)) * uFloat;
+        vec4 mv = modelViewMatrix * vec4(p, 1.0); gl_Position = projectionMatrix * mv;
+        float tw = .55 + .45 * sin(uTime * 1.6 + aPhase);
+        gl_PointSize = aSize * uSize * uPR * (7.5 / -mv.z);
+        vC = color; vA = tw; }`,
+    fragmentShader: `uniform float uOpacity; varying vec3 vC; varying float vA;
+      void main(){ float d = length(gl_PointCoord - .5); float a = smoothstep(.5, .1, d); if (a < .01) discard; gl_FragColor = vec4(vC, a * vA * uOpacity); }`,
+    transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
+  });
+  const scene = new THREE.Scene(), cam = new THREE.PerspectiveCamera(45, 1, .1, 100); cam.position.z = 7.5;
+  const grp = new THREE.Group(); grp.add(new THREE.Points(geo, mat)); scene.add(grp);
+  /* alone morbido dietro la forma, al posto del bagliore CSS */
+  const gc = document.createElement('canvas'); gc.width = gc.height = 128; const g2 = gc.getContext('2d'), gg = g2.createRadialGradient(64, 64, 0, 64, 64, 64);
+  gg.addColorStop(0, 'rgba(96,110,255,.55)'); gg.addColorStop(.45, 'rgba(120,90,230,.16)'); gg.addColorStop(1, 'rgba(90,100,255,0)'); g2.fillStyle = gg; g2.fillRect(0, 0, 128, 128);
+  const glow = new THREE.Sprite(new THREE.SpriteMaterial({map: new THREE.CanvasTexture(gc), transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0}));
+  scene.add(glow);
+
+  let visH = 1, visW = 1;
+  const resize = () => { const w = innerWidth, h = innerHeight; renderer.setPixelRatio(Math.min(devicePixelRatio, 1.75)); renderer.setSize(w, h, false); mat.uniforms.uPR.value = renderer.getPixelRatio(); cam.aspect = w / h; cam.updateProjectionMatrix(); visH = 2 * cam.position.z * Math.tan(cam.fov * Math.PI / 360); visW = visH * cam.aspect; };
+  addEventListener('resize', resize); resize();
+  const toWorld = (r) => { const k = visH / innerHeight; return {x: (r.left + r.width / 2 - innerWidth / 2) * k, y: -(r.top + r.height / 2 - innerHeight / 2) * k, w: r.width * k, h: r.height * k}; };
+
+  const stage = document.querySelector('.mark-stage svg.big'), phone = document.querySelector('.phone'), tour = document.querySelector('.tour'), hero = document.querySelector('.hero');
+  let mx = 0, my = 0; addEventListener('pointermove', e => { mx = e.clientX / innerWidth - .5; my = e.clientY / innerHeight - .5; }, {passive: true});
+  let key = '', tgt = dust, settled = false, spinY = 0, last = performance.now();
+  const S = {x: 0, y: 0, s: 1, o: .5, size: 1, fl: 0, gl: 0, gs: 1, tilt: 0};
+  const lerp = (a, b, t) => a + (b - a) * t;
+  document.documentElement.classList.add('gl-on');
+
+  const frame = (now) => {
+    requestAnimationFrame(frame);
+    if (document.hidden) return;
+    const dt = Math.min(.05, (now - last) / 1000); last = now;
+    const H = innerHeight, tr = tour.getBoundingClientRect(), hr = hero.getBoundingClientRect();
+    let k, a, scale, o, size, fl, gl, tilt = 0, spin = 0;
+    if (tr.top < H * .62 && tr.bottom > H * .38) {
+      const i = (window.TEDO && window.TEDO.svc) || 0; k = 's' + i; tgt = SVC[i];
+      a = toWorld(phone.getBoundingClientRect()); scale = a.h * (small ? .5 : .42); o = 1; size = small ? 1.5 : 1.75; fl = .01; gl = .35; tilt = SVC_TILT[i]; spin = .22;
+    } else if (hr.bottom > H * .35) {
+      k = 'logo'; tgt = logo; a = toWorld(stage.getBoundingClientRect()); scale = a.w / 570; o = 1; size = small ? 1.35 : 1.6; fl = .45; gl = .4;
+    } else {
+      k = 'dust'; tgt = dust; a = {x: 0, y: 0}; scale = 1; o = .42; size = 1; fl = .06; gl = 0; spin = .02;
+    }
+    if (k !== key) { key = k; settled = false; }
+    if (!settled) {
+      let md = 0;
+      for (let i = 0; i < N * 3; i++) { const d = tgt[i] - pos[i]; pos[i] += d * spd[(i / 3) | 0]; const ad = d < 0 ? -d : d; if (ad > md) md = ad; }
+      geo.attributes.position.needsUpdate = true;
+      if (md < .003) settled = true;
+    }
+    const e = 1 - Math.pow(.0015, dt);
+    S.x = lerp(S.x, a.x, e * 2.2); S.y = lerp(S.y, a.y, e * 2.2); S.s = lerp(S.s, scale, e); S.o = lerp(S.o, o, e); S.size = lerp(S.size, size, e); S.fl = lerp(S.fl, fl, e); S.gl = lerp(S.gl, gl, e); S.tilt = lerp(S.tilt, tilt, e);
+    spinY += spin * dt;
+    grp.position.set(S.x, S.y, 0); grp.scale.setScalar(S.s);
+    if (k === 'logo') { spinY = lerp(spinY, Math.round(spinY / TAU) * TAU, e); }
+    grp.rotation.set(S.tilt + my * .12, spinY + mx * .25, 0);
+    mat.uniforms.uTime.value = now / 1000; mat.uniforms.uOpacity.value = S.o; mat.uniforms.uSize.value = S.size; mat.uniforms.uFloat.value = S.fl;
+    glow.position.set(S.x, S.y, -.5); const gw = k === 'logo' ? S.s * 430 : S.s * 2.6; glow.scale.set(gw, gw * (k === 'logo' ? .55 : 1), 1); glow.material.opacity = S.gl;
+    renderer.render(scene, cam);
+  };
+  requestAnimationFrame(frame);
+}
 </script>
 </body>
 </html>
