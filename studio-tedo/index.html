@@ -1,0 +1,839 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Studio Tedo</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Studio Tedo, Torino. Siti, gestionali e automazioni costruiti su misura per la tua attività. Prima vedi la demo funzionante, poi decidi.">
+<meta name="theme-color" content="#07080c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%238a8dff'/%3E%3Cstop offset='1' stop-color='%2366c9f4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%2307080c'/%3E%3Cpath d='M10 14h40v8H34v28h-8V22H10z' fill='url(%23g)'/%3E%3Cpath d='M6 31h52' stroke='%23a8b4ff' stroke-width='2'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: dark "studio at night" ground lit by the logo's blue-cyan-violet glow; a single horizontal
+   light line (the cut through the TEDO mark) recurs as the structural device between ideas. */
+:root{
+  --bg:#07080c;
+  --bg-2:#0c0e15;
+  --surface:#11141d;
+  --surface-2:#171b27;
+  --ink:#eceef8;
+  --mute:#8f95ab;
+  --faint:#5d637a;
+  --line:rgba(170,184,255,.11);
+  --line-2:rgba(170,184,255,.2);
+  --blue:#6f7dff;
+  --cyan:#5ec8f4;
+  --violet:#b38cff;
+  --ok:#62d6a8;
+  --warn:#f2b866;
+  --grad:linear-gradient(100deg,#7c84ff 0%,#64c3f5 48%,#b48cff 100%);
+  --f-display:"Unbounded","Arial Black",system-ui,sans-serif;
+  --f-body:"Geist","Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"Geist Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --ease:cubic-bezier(.2,.7,.1,1);
+  --gut:max(16px,env(safe-area-inset-left,0px));
+  --gut-r:max(16px,env(safe-area-inset-right,0px));
+  --wrap:1180px;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;overflow-x:clip;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--f-body);-webkit-font-smoothing:antialiased;overflow-x:clip}
+img,svg{max-width:100%}
+a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
+::selection{background:rgba(111,125,255,.45)}
+.wrap{max-width:var(--wrap);margin:0 auto;padding-left:var(--gut);padding-right:var(--gut-r)}
+@media(min-width:760px){.wrap{padding-left:max(32px,env(safe-area-inset-left,0px));padding-right:max(32px,env(safe-area-inset-right,0px))}}
+[hidden]{display:none!important}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* type */
+.eyebrow{font:500 .75rem/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mute);display:inline-flex;align-items:center;gap:.6rem}
+.eyebrow::before{content:"";width:22px;height:1px;background:var(--grad);box-shadow:0 0 8px var(--cyan)}
+h1,h2,h3{font-family:var(--f-display);font-weight:600;letter-spacing:-.02em;text-wrap:balance;margin:0}
+h2{font-size:clamp(1.75rem,3.6vw,2.9rem);line-height:1.08}
+h3{font-size:1.05rem;letter-spacing:-.01em;line-height:1.25}
+.g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{font-size:clamp(1.05rem,1.4vw,1.2rem);color:var(--mute);max-width:56ch;line-height:1.6}
+p{margin:0}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;min-height:48px;padding:0 1.35rem;border-radius:999px;font-weight:600;font-size:.98rem;text-decoration:none;border:1px solid transparent;cursor:pointer;transition:transform .25s var(--ease),box-shadow .25s var(--ease),background .25s,border-color .25s;white-space:nowrap}
+.btn-p{background:var(--ink);color:#0a0b10;box-shadow:0 0 0 1px rgba(255,255,255,.1),0 10px 40px -12px rgba(111,125,255,.9)}
+.btn-p:hover{transform:translateY(-2px);box-shadow:0 0 0 1px rgba(255,255,255,.2),0 16px 50px -10px rgba(94,200,244,.9)}
+.btn-p .arr{transition:transform .25s var(--ease)}
+.btn-p:hover .arr{transform:translateX(4px)}
+.btn-s{border-color:var(--line-2);background:rgba(255,255,255,.02)}
+.btn-s:hover{border-color:rgba(170,184,255,.45);background:rgba(170,184,255,.06)}
+
+/* the cut line */
+.cut{height:1px;background:linear-gradient(90deg,transparent,rgba(124,132,255,.8) 15%,#9fdcff 50%,rgba(180,140,255,.8) 85%,transparent);box-shadow:0 0 12px rgba(111,160,255,.7);border:0;margin:0}
+
+/* ---------- header ---------- */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--bg)}
+.hd{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;transition:background .3s,border-color .3s,backdrop-filter .3s;border-bottom:1px solid transparent}
+.hd.on{background:rgba(7,8,12,.72);backdrop-filter:blur(16px) saturate(1.3);-webkit-backdrop-filter:blur(16px) saturate(1.3);border-bottom-color:var(--line)}
+.hd .wrap{display:flex;align-items:center;justify-content:space-between;gap:1rem;height:68px}
+.brand{display:flex;align-items:center;gap:.8rem;text-decoration:none}
+.brand svg{width:92px;height:auto;display:block;overflow:visible}
+.brand small{font:500 .66rem/1.2 var(--f-mono);letter-spacing:.16em;color:var(--mute);text-transform:uppercase;padding-left:.8rem;border-left:1px solid var(--line-2)}
+.nav{display:flex;align-items:center;gap:.25rem}
+.nav a.l{padding:.55rem .85rem;border-radius:999px;text-decoration:none;color:var(--mute);font-size:.92rem;transition:color .2s,background .2s}
+.nav a.l:hover{color:var(--ink);background:rgba(170,184,255,.07)}
+.nav .btn{min-height:40px;padding:0 1.05rem;font-size:.9rem;margin-left:.5rem}
+@media(max-width:860px){.nav a.l{display:none}.brand small{display:none}}
+
+/* ---------- hero ---------- */
+.hero{position:relative;overflow-x:clip;padding-block:clamp(2.5rem,6vw,5rem) clamp(3rem,7vw,6rem);isolation:isolate}
+.aura{position:absolute;inset:-120px 0 -160px;z-index:-1;overflow:hidden;pointer-events:none;-webkit-mask-image:linear-gradient(180deg,#000 55%,transparent);mask-image:linear-gradient(180deg,#000 55%,transparent)}
+.aura i{position:absolute;border-radius:50%;filter:blur(70px);opacity:.75}
+.aura .a1{width:52vw;height:52vw;max-width:720px;max-height:720px;right:-6vw;top:2%;background:radial-gradient(circle,#3a46c9 0%,transparent 66%)}
+.aura .a2{width:36vw;height:36vw;max-width:520px;max-height:520px;right:4vw;top:6%;background:radial-gradient(circle,#6b3fc2 0%,transparent 66%);animation:drift 18s ease-in-out infinite alternate}
+.aura .a3{width:40vw;height:40vw;max-width:560px;max-height:560px;right:16vw;top:30%;background:radial-gradient(circle,#1f6fae 0%,transparent 66%);animation:drift 22s ease-in-out infinite alternate-reverse}
+@keyframes drift{to{transform:translate(-6%,8%) scale(1.08)}}
+.aura::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 80% at 70% 30%,transparent 40%,var(--bg) 85%)}
+.grain{position:absolute;inset:-120px 0 0;-webkit-mask-image:linear-gradient(180deg,#000 40%,transparent);mask-image:linear-gradient(180deg,#000 40%,transparent);z-index:-1;opacity:.06;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(2rem,4vw,4rem);align-items:center}
+.hero-copy{display:flex;flex-direction:column;gap:1.6rem;min-width:0}
+.hero h1{font-size:clamp(2.3rem,5.4vw,4.6rem);line-height:1.02;font-weight:600;letter-spacing:-.035em}
+.hero h1 em{font-style:normal;display:block}
+.hero .actions{display:flex;flex-wrap:wrap;gap:.75rem}
+.hero-meta{display:flex;flex-wrap:wrap;gap:.5rem 1.4rem;font:400 .8rem/1.4 var(--f-mono);color:var(--mute)}
+.hero-meta span{display:inline-flex;align-items:center;gap:.45rem}
+.hero-meta span::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ok);box-shadow:0 0 10px var(--ok)}
+.mark-stage{position:relative;aspect-ratio:1/1;max-width:520px;width:100%;justify-self:end;display:grid;place-items:center}
+.mark-stage .orb{position:absolute;inset:6%;border-radius:50%;background:
+  radial-gradient(circle at 38% 34%,rgba(76,92,230,.85),transparent 55%),
+  radial-gradient(circle at 70% 42%,rgba(140,80,220,.7),transparent 52%),
+  radial-gradient(circle at 46% 72%,rgba(38,140,210,.75),transparent 55%);
+  filter:blur(38px);animation:breathe 9s ease-in-out infinite}
+@keyframes breathe{50%{transform:scale(1.06);opacity:.85}}
+.mark-stage svg.big{position:relative;width:118%;max-width:none;height:auto;overflow:visible;filter:drop-shadow(0 8px 30px rgba(60,80,200,.55))}
+.mark-stage .caption{position:absolute;bottom:4%;left:50%;transform:translateX(-50%);font:500 .68rem/1 var(--f-mono);letter-spacing:.2em;color:rgba(200,210,255,.55);text-transform:uppercase;white-space:nowrap}
+.hero-line{position:absolute;left:0;right:0;z-index:-1}
+@media(max-width:860px){
+  .hero-grid{grid-template-columns:1fr}
+  .mark-stage{order:-1;justify-self:center;max-width:360px;aspect-ratio:16/10;margin-bottom:-1rem}
+  .mark-stage .orb{inset:0 10%}
+  .mark-stage .caption{display:none}
+  .mark-stage svg.big{width:100%}
+}
+
+/* slice animation on the mark */
+.tedo .top{animation:settle 1.6s var(--ease) .2s both}
+.tedo .seam{transform-origin:center;animation:draw 1.2s var(--ease) both}
+@keyframes settle{from{transform:translateX(-46px);opacity:.4}}
+@keyframes draw{from{transform:scaleX(0);opacity:0}}
+
+/* ---------- manifesto ---------- */
+.mani{padding-block:clamp(3rem,7vw,6rem)}
+.mani p{font-family:var(--f-display);font-weight:500;font-size:clamp(1.35rem,2.9vw,2.35rem);line-height:1.25;letter-spacing:-.02em;max-width:30ch;color:var(--faint)}
+.mani p b{font-weight:500;color:var(--ink)}
+.mani .row{display:grid;grid-template-columns:200px 1fr;gap:2rem;align-items:start}
+.mani .row .eyebrow{margin-top:.9rem}
+@media(max-width:760px){.mani .row{grid-template-columns:1fr;gap:1rem}}
+
+/* ---------- services tour ---------- */
+section{position:relative}
+.sec{padding-block:clamp(4rem,9vw,7.5rem)}
+.sec-head{display:flex;flex-direction:column;gap:1rem;margin-bottom:clamp(2rem,5vw,3.5rem);max-width:760px}
+.tour{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:clamp(2rem,5vw,5rem);align-items:start}
+.svc-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.svc{border-bottom:1px solid var(--line)}
+.svc button{all:unset;box-sizing:border-box;cursor:pointer;display:grid;grid-template-columns:2.6rem 1fr auto;gap:1rem;align-items:center;width:100%;padding:1.25rem .25rem;position:relative}
+.svc button:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;border-radius:8px}
+.svc .ic{width:2.6rem;height:2.6rem;border-radius:12px;display:grid;place-items:center;border:1px solid var(--line-2);color:var(--mute);transition:all .3s var(--ease)}
+.svc .ic svg{width:20px;height:20px}
+.svc .t{font-family:var(--f-display);font-weight:500;font-size:clamp(1rem,1.6vw,1.25rem);letter-spacing:-.01em;color:var(--mute);transition:color .3s}
+.svc .k{font:400 .72rem/1 var(--f-mono);color:var(--faint);letter-spacing:.08em}
+.svc .body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s var(--ease)}
+.svc .body>div{overflow:hidden;min-height:0}
+.svc .body p{color:var(--mute);padding:0 .25rem 0 calc(2.6rem + 1.25rem);max-width:58ch}
+.tags{display:flex;flex-wrap:wrap;gap:.4rem;padding:.9rem .25rem 1.4rem calc(2.6rem + 1.25rem)}
+.tag{font:400 .74rem/1 var(--f-mono);padding:.45rem .65rem;border-radius:999px;border:1px solid var(--line-2);color:#c4c9e0;background:rgba(170,184,255,.04)}
+.svc button::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;transform:scaleX(0);transform-origin:left;background:var(--grad);box-shadow:0 0 10px var(--cyan)}
+.svc.on button::after{transform:scaleX(var(--p,0))}
+.svc.on .ic{color:#0a0b10;background:var(--grad);border-color:transparent;box-shadow:0 6px 24px -6px rgba(94,200,244,.8)}
+.svc.on .t,.svc button:hover .t{color:var(--ink)}
+.svc.on .body{grid-template-rows:1fr}
+.custom{margin-top:2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;padding:1.2rem 1.3rem;border-radius:16px;border:1px dashed var(--line-2);color:var(--mute)}
+.custom b{font-family:var(--f-display);font-weight:500;color:var(--ink);font-size:1.05rem}
+.custom svg{width:28px;height:28px;color:var(--cyan);flex:none}
+
+/* phone */
+.phone-col{position:sticky;top:calc(env(safe-area-inset-top,0px) + 96px)}
+.phone{position:relative;width:100%;max-width:340px;margin:0 auto;aspect-ratio:9/18.6;border-radius:46px;padding:11px;background:linear-gradient(160deg,#2a2f42,#0f1118 40%,#1d2131);box-shadow:0 0 0 1px rgba(255,255,255,.08) inset,0 40px 90px -30px rgba(70,90,230,.65),0 0 0 1px #05060a}
+.phone::before{content:"";position:absolute;inset:-14%;z-index:-1;border-radius:50%;background:radial-gradient(circle at 50% 40%,rgba(80,96,240,.35),transparent 60%);filter:blur(30px)}
+.screen{position:relative;height:100%;border-radius:36px;overflow:hidden;background:#0a0c12}
+.island{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:96px;height:28px;border-radius:20px;background:#000;z-index:5}
+.sb{display:flex;justify-content:space-between;align-items:center;padding:14px 26px 0;height:44px;font:600 .8rem/1 var(--f-body);color:#e9ebf5;position:relative;z-index:4}
+.sb .dots{font-size:.55rem;letter-spacing:1px}
+.scr{position:absolute;inset:44px 0 0;padding:14px 14px 18px;display:flex;flex-direction:column;gap:10px;opacity:0;transform:translateY(14px) scale(.985);transition:opacity .45s var(--ease),transform .55s var(--ease);pointer-events:none;font-size:.8rem;line-height:1.4}
+.scr.on{opacity:1;transform:none;pointer-events:auto}
+.scr .hdr{display:flex;align-items:baseline;justify-content:space-between;padding:4px 4px 2px}
+.scr .hdr b{font:600 1.05rem/1.1 var(--f-display);letter-spacing:-.01em}
+.scr .hdr span{font:400 .68rem/1 var(--f-mono);color:var(--mute)}
+.c{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:11px 12px;display:flex;flex-direction:column;gap:6px}
+.c .lab{font:500 .64rem/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+.c .rw{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.c .v{font:600 1.5rem/1 var(--f-display);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.mut{color:var(--mute);font-size:.72rem}
+.pill{font:500 .64rem/1 var(--f-mono);padding:.35rem .55rem;border-radius:999px;white-space:nowrap;flex:none}
+.pill.ok{color:var(--ok);background:rgba(98,214,168,.1);border:1px solid rgba(98,214,168,.25)}
+.pill.wa{color:var(--warn);background:rgba(242,184,102,.1);border:1px solid rgba(242,184,102,.25)}
+.pill.ac{color:#0a0b10;background:var(--grad)}
+.pill.q{color:#b9c2ff;background:rgba(111,125,255,.12);border:1px solid rgba(111,125,255,.3)}
+.sample{margin-top:auto;text-align:center;font:400 .6rem/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+.bars{display:flex;align-items:flex-end;gap:5px;height:54px;margin-top:4px}
+.bars i{flex:1;height:var(--h);border-radius:4px 4px 2px 2px;background:rgba(111,125,255,.28)}
+.bars i.hi{background:var(--grad);box-shadow:0 0 12px rgba(94,200,244,.6)}
+.meter{height:6px;border-radius:6px;background:rgba(170,184,255,.1);overflow:hidden}
+.meter i{display:block;height:100%;width:var(--w);border-radius:6px;background:var(--grad)}
+.bub{max-width:84%;padding:8px 11px;border-radius:16px;font-size:.76rem;line-height:1.38}
+.bub.in{background:var(--surface-2);border:1px solid var(--line);border-bottom-left-radius:5px;align-self:flex-start}
+.bub.out{background:linear-gradient(135deg,#4f5ff0,#3c8fd8);border-bottom-right-radius:5px;align-self:flex-end;color:#fff}
+.chat-h{display:flex;align-items:center;gap:9px;padding:2px 4px 6px;border-bottom:1px solid var(--line)}
+.av{width:30px;height:30px;border-radius:50%;background:var(--grad);display:grid;place-items:center;color:#0a0b10;font:700 .7rem/1 var(--f-display)}
+.chat-h small{display:block;color:var(--ok);font:400 .62rem/1.3 var(--f-mono)}
+.slots{display:grid;grid-template-columns:repeat(6,1fr);gap:4px}
+.slots i{height:22px;border-radius:6px;background:rgba(170,184,255,.08);border:1px solid var(--line)}
+.slots i.b{background:rgba(111,125,255,.35);border-color:rgba(111,125,255,.5)}
+.slots i.me{background:var(--grad);border-color:transparent;box-shadow:0 0 10px rgba(94,200,244,.6)}
+.hours{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;font:400 .52rem/1 var(--f-mono);color:var(--faint);text-align:center}
+.shop-hero{border-radius:16px;padding:14px;background:radial-gradient(120% 120% at 100% 0%,rgba(179,140,255,.35),transparent 60%),linear-gradient(160deg,#1a1f33,#11141d);border:1px solid var(--line)}
+.shop-hero small{font:400 .6rem/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.shop-hero b{display:block;font:600 1rem/1.2 var(--f-display);margin:6px 0 10px;letter-spacing:-.01em}
+.add{font:600 .66rem/1 var(--f-body);padding:.45rem .7rem;border-radius:999px;background:var(--ink);color:#0a0b10}
+.toast{display:flex;gap:9px;align-items:center;background:rgba(98,214,168,.08);border:1px solid rgba(98,214,168,.22);border-radius:14px;padding:9px 11px}
+.toast .dot{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;background:rgba(98,214,168,.18);color:var(--ok);flex:none}
+.toast .dot svg{width:14px;height:14px}
+.post{display:flex;gap:10px;align-items:center}
+.post .th{width:42px;height:42px;border-radius:10px;flex:none;background:linear-gradient(135deg,#e0a46a,#b4553f)}
+.post .th.b{background:linear-gradient(135deg,#6f7dff,#b38cff)}
+.zone{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 0;border-top:1px solid var(--line)}
+.zone:first-of-type{border-top:0}
+.lamp{width:9px;height:9px;border-radius:50%;flex:none}
+.lamp.off{background:#363b4f}
+.lamp.on{background:var(--warn);box-shadow:0 0 10px var(--warn)}
+.lamp.dim{background:#8a7448}
+.phone-dots{display:flex;justify-content:center;gap:6px;margin-top:1.4rem}
+.phone-dots button{all:unset;cursor:pointer;width:7px;height:7px;border-radius:7px;background:rgba(170,184,255,.22);transition:width .3s var(--ease),background .3s}
+.phone-dots button.on{width:22px;background:var(--grad)}
+.phone-dots button:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+@media(max-width:960px){
+  .tour{grid-template-columns:1fr}
+  .phone-col{position:relative;top:0;order:-1}
+  .phone{max-width:300px}
+}
+
+/* ---------- settori ---------- */
+.sectors{overflow:hidden;border-block:1px solid var(--line);padding-block:1.6rem;display:flex;flex-direction:column;gap:.8rem;mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.mq{display:flex;gap:.8rem;width:max-content;animation:mq 60s linear infinite}
+.mq.r{animation-direction:reverse;animation-duration:70s}
+.mq span{font-family:var(--f-display);font-weight:500;font-size:clamp(1rem,1.8vw,1.4rem);padding:.65rem 1.2rem;border-radius:999px;border:1px solid var(--line-2);white-space:nowrap;color:#c9cde2}
+.mq span:nth-child(3n+1){color:var(--ink);background:rgba(111,125,255,.08)}
+@keyframes mq{to{transform:translateX(-50%)}}
+.sectors:hover .mq{animation-play-state:paused}
+.scale{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1.5rem,4vw,3rem);margin-top:clamp(2.5rem,5vw,4rem)}
+.scale h3{font-size:clamp(1.3rem,2.4vw,1.85rem);font-weight:500;letter-spacing:-.025em}
+.scale .col{display:flex;flex-direction:column;gap:1rem;min-width:0}
+.one{border:1px solid var(--line);border-radius:22px;padding:clamp(1.3rem,3vw,2rem);background:linear-gradient(180deg,rgba(23,27,39,.8),rgba(12,14,21,.8));position:relative;overflow:hidden}
+.one::before{content:"";position:absolute;top:-1px;left:10%;right:10%;height:1px;background:var(--grad);box-shadow:0 0 14px var(--cyan)}
+.stack{list-style:none;margin:1.2rem 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.stack li{display:flex;align-items:center;justify-content:space-between;gap:.5rem;padding:.7rem .85rem;border-radius:12px;background:rgba(170,184,255,.04);border:1px solid var(--line);font-size:.9rem}
+.stack li .pill{font-size:.6rem}
+@media(max-width:760px){.scale{grid-template-columns:1fr}}
+@media(max-width:400px){.stack{grid-template-columns:1fr}}
+
+/* ---------- calcolo ---------- */
+.calc{display:grid;grid-template-columns:1fr 1.05fr;gap:0;border:1px solid var(--line);border-radius:28px;overflow:hidden;background:var(--bg-2)}
+.calc .in{padding:clamp(1.4rem,3.5vw,2.6rem);display:flex;flex-direction:column;gap:1.8rem;min-width:0}
+.calc .out{padding:clamp(1.4rem,3.5vw,2.6rem);display:flex;flex-direction:column;gap:1.4rem;position:relative;isolation:isolate;border-left:1px solid var(--line);min-width:0;overflow:hidden}
+.calc .out::before{content:"";position:absolute;inset:auto -20% -40% -20%;height:90%;z-index:-1;background:radial-gradient(closest-side,rgba(70,90,230,.4),transparent);filter:blur(20px)}
+.fld{display:flex;flex-direction:column;gap:.75rem}
+.fld .top{display:flex;justify-content:space-between;align-items:baseline;gap:1rem}
+.fld label{font-size:.95rem;color:#cfd3e6}
+.fld output{font:600 1.15rem/1 var(--f-display);font-variant-numeric:tabular-nums;min-width:4ch;text-align:right}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:28px;background:transparent;cursor:pointer;margin:0}
+input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:4px;background:linear-gradient(90deg,var(--blue),var(--cyan) var(--f,50%),rgba(170,184,255,.14) var(--f,50%))}
+input[type=range]::-moz-range-track{height:4px;border-radius:4px;background:rgba(170,184,255,.14)}
+input[type=range]::-moz-range-progress{height:4px;border-radius:4px;background:linear-gradient(90deg,var(--blue),var(--cyan))}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;margin-top:-9px;border-radius:50%;background:var(--ink);border:0;box-shadow:0 0 0 5px rgba(111,125,255,.25),0 0 16px rgba(94,200,244,.7)}
+input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--ink);border:0;box-shadow:0 0 0 5px rgba(111,125,255,.25),0 0 16px rgba(94,200,244,.7)}
+.fine{font-size:.85rem;color:var(--faint);line-height:1.5}
+.big{font:600 clamp(2.4rem,6vw,4.4rem)/1 var(--f-display);letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.unit{font:400 .74rem/1.4 var(--f-mono);color:var(--mute);letter-spacing:.04em}
+.week{display:flex;flex-direction:column;gap:.55rem}
+.week .lg{display:flex;justify-content:space-between;font:400 .72rem/1 var(--f-mono);color:var(--mute)}
+.week .lg i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.wbar{display:flex;height:14px;border-radius:7px;overflow:hidden;background:rgba(170,184,255,.08)}
+.wbar b{display:block;height:100%;background:var(--grad);transition:width .5s var(--ease);box-shadow:0 0 14px rgba(94,200,244,.5)}
+.days{display:flex;align-items:baseline;gap:.8rem;flex-wrap:wrap;padding-top:1.2rem;border-top:1px solid var(--line)}
+.days b{font:600 1.9rem/1 var(--f-display);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.days span{color:var(--mute);font-size:.95rem}
+@media(max-width:860px){.calc{grid-template-columns:1fr}.calc .out{border-left:0;border-top:1px solid var(--line)}}
+
+/* ---------- metodo ---------- */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1rem,2.5vw,2rem);position:relative;padding-top:2.4rem}
+.steps .cut{position:absolute;top:calc(2.4rem + 9px);left:0;right:0}
+.step{display:flex;flex-direction:column;gap:.9rem;position:relative;min-width:0}
+.step .node{width:19px;height:19px;border-radius:50%;background:var(--bg);border:2px solid #9fdcff;box-shadow:0 0 14px rgba(94,200,244,.8);position:relative;z-index:1}
+.step .n{font:500 .72rem/1 var(--f-mono);letter-spacing:.14em;color:var(--mute);text-transform:uppercase;margin-top:.6rem}
+.step h3{font-size:clamp(1.2rem,2vw,1.5rem);font-weight:500}
+.step p{color:var(--mute);max-width:36ch}
+.step .pill{align-self:flex-start}
+.promises{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:22px;overflow:hidden;margin-top:clamp(3rem,6vw,4.5rem)}
+.promise{background:var(--bg);padding:clamp(1.3rem,3vw,1.9rem);display:flex;flex-direction:column;gap:.7rem}
+.promise svg{width:26px;height:26px;color:var(--cyan)}
+.promise p{color:var(--mute);font-size:.95rem}
+@media(max-width:860px){
+  .steps{grid-template-columns:1fr;padding-top:0;padding-left:2.2rem;gap:2.2rem}
+  .steps .cut{top:0;bottom:0;left:8px;right:auto;width:1px;height:auto;background:linear-gradient(180deg,rgba(124,132,255,.8),#9fdcff 50%,rgba(180,140,255,.8))}
+  .step .node{position:absolute;left:calc(-2.2rem - 1px)}
+  .step .n{margin-top:0}
+  .promises{grid-template-columns:1fr}
+}
+
+/* ---------- demo ---------- */
+.demo{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(2rem,5vw,4.5rem);align-items:start}
+.demo .copy{display:flex;flex-direction:column;gap:1.5rem;position:sticky;top:calc(env(safe-area-inset-top,0px) + 100px);min-width:0}
+.ticks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.7rem}
+.ticks li{display:flex;gap:.7rem;align-items:center}
+.ticks svg{width:18px;height:18px;color:var(--ok);flex:none}
+.voice{display:flex;flex-direction:column;gap:.3rem;padding-top:1.4rem;border-top:1px solid var(--line)}
+.voice span{color:var(--mute);font-size:.9rem}
+.voice a{font:600 1.4rem/1.2 var(--f-display);letter-spacing:-.02em;text-decoration:none;width:fit-content}
+.voice a:hover{color:var(--cyan)}
+.win{border:1px solid var(--line-2);border-radius:24px;background:var(--bg-2);box-shadow:0 40px 100px -40px rgba(60,80,220,.6);overflow:hidden;min-width:0}
+.win-bar{display:flex;align-items:center;gap:.5rem;padding:.85rem 1.1rem;border-bottom:1px solid var(--line);font:400 .72rem/1 var(--f-mono);color:var(--mute)}
+.win-bar i{width:10px;height:10px;border-radius:50%;background:#262b3b}
+.win-bar span{margin-left:.6rem}
+form{padding:clamp(1.2rem,3vw,2rem);display:grid;grid-template-columns:1fr 1fr;gap:1.1rem 1rem}
+.f{display:flex;flex-direction:column;gap:.45rem;min-width:0}
+.f.full{grid-column:1/-1}
+.f>label,.f legend{font-size:.85rem;color:#c8cce0;padding:0}
+.f input,.f select,.f textarea{width:100%;min-height:48px;padding:.75rem .9rem;border-radius:12px;border:1px solid var(--line-2);background:var(--surface);transition:border-color .2s,box-shadow .2s;font-size:1rem}
+.f textarea{min-height:110px;resize:vertical;line-height:1.5}
+.f select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%238f95ab' stroke-width='1.6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;padding-right:2.4rem}
+.f input:focus,.f select:focus,.f textarea:focus{outline:0;border-color:rgba(94,200,244,.7);box-shadow:0 0 0 4px rgba(94,200,244,.14)}
+.f input::placeholder,.f textarea::placeholder{color:var(--faint)}
+.f.bad input,.f.bad select{border-color:#ff7a8a}
+fieldset.f{border:0;margin:0;padding:0}
+.chips{display:flex;flex-wrap:wrap;gap:.45rem}
+.chip{position:relative}
+.chip input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.chip span{display:inline-flex;align-items:center;gap:.4rem;min-height:38px;padding:.45rem .85rem;border-radius:999px;border:1px solid var(--line-2);font-size:.88rem;color:#c8cce0;transition:all .2s;cursor:pointer}
+.chip span::before{content:"+";font-family:var(--f-mono);color:var(--faint)}
+.chip input:checked+span{background:rgba(111,125,255,.16);border-color:rgba(111,125,255,.6);color:var(--ink)}
+.chip input:checked+span::before{content:"✓";color:var(--cyan)}
+.chip input:focus-visible+span{outline:2px solid var(--cyan);outline-offset:2px}
+.f-foot{grid-column:1/-1;display:flex;flex-direction:column;gap:.8rem;margin-top:.4rem}
+.f-foot .btn{width:100%;min-height:54px;font-size:1.02rem}
+.f-foot small{color:var(--faint);font-size:.8rem;text-align:center}
+.err{color:#ff9aa6;font-size:.88rem;min-height:1.2em;text-align:center}
+.done{padding:clamp(1.6rem,4vw,2.6rem);display:flex;flex-direction:column;gap:1rem;align-items:flex-start}
+.done .ok{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;background:rgba(98,214,168,.12);color:var(--ok)}
+.done .ok svg{width:26px;height:26px}
+.done p{color:var(--mute)}
+.done code{font:400 .82rem/1.5 var(--f-mono);padding:.15rem .4rem;border-radius:6px;background:var(--surface);user-select:all}
+@media(max-width:960px){.demo{grid-template-columns:1fr}.demo .copy{position:relative;top:0}}
+@media(max-width:560px){form{grid-template-columns:1fr}}
+
+/* ---------- footer ---------- */
+.ft{padding-block:clamp(3rem,7vw,5rem) clamp(2rem,4vw,3rem);border-top:1px solid var(--line);position:relative;overflow:hidden}
+.ft .giant{display:block;width:100%;height:auto;margin-bottom:clamp(2rem,5vw,3.5rem);overflow:visible;opacity:.95}
+.ft-grid{display:grid;grid-template-columns:1.2fr 1fr auto;gap:2rem;font-size:.9rem;color:var(--mute)}
+.ft-grid b{color:var(--ink);font-weight:500}
+.ft-grid a{text-decoration:none}
+.ft-grid a:hover{color:var(--ink)}
+.ft-grid .col{display:flex;flex-direction:column;gap:.35rem;min-width:0}
+@media(max-width:760px){.ft-grid{grid-template-columns:1fr}}
+
+/* reveal */
+.rv{transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.js .rv.pre{opacity:0;transform:translateY(24px)}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .mq{flex-wrap:wrap;width:auto}
+  .js .rv.pre{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ======= shared brand defs: the TEDO mark, cut along its horizontal seam ======= -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="tg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="430" y2="110">
+      <stop offset="0" stop-color="#8a8dff"/>
+      <stop offset=".42" stop-color="#7fb8f7"/>
+      <stop offset=".7" stop-color="#8fc6f5"/>
+      <stop offset="1" stop-color="#bb8ff6"/>
+    </linearGradient>
+    <linearGradient id="tgb" gradientUnits="userSpaceOnUse" x1="0" y1="100" x2="430" y2="60">
+      <stop offset="0" stop-color="#6f86f9"/>
+      <stop offset=".45" stop-color="#6ecaf6"/>
+      <stop offset="1" stop-color="#a982f2"/>
+    </linearGradient>
+    <linearGradient id="seam" x1="0" x2="1">
+      <stop offset="0" stop-color="#7c84ff" stop-opacity="0"/>
+      <stop offset=".12" stop-color="#8f9bff"/>
+      <stop offset=".5" stop-color="#b5e4ff"/>
+      <stop offset=".88" stop-color="#a98cff"/>
+      <stop offset="1" stop-color="#a98cff" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="ct"><rect x="-60" y="-20" width="560" height="68"/></clipPath>
+    <clipPath id="cb"><rect x="-60" y="48" width="560" height="80"/></clipPath>
+    <path id="letters" fill-rule="evenodd" d="
+      M0 0H96V22H59V100H37V22H0Z
+      M110 0H190V22H132V39H180V61H132V78H192V100H110Z
+      M206 0H252C284 0 302 21 302 50C302 79 284 100 252 100H206Z M228 22V78H250C270 78 280 66 280 50C280 34 270 22 250 22Z
+      M362 0C399 0 426 21 426 50C426 79 399 100 362 100C325 100 298 79 298 50C298 21 325 0 362 0Z M362 22C337 22 321 34 321 50C321 66 337 78 362 78C387 78 403 66 403 50C403 34 387 22 362 22Z"/>
+    <symbol id="tedo" viewBox="-70 -14 570 128" overflow="visible">
+      <g class="tedo">
+        <g clip-path="url(#cb)"><use href="#letters" fill="url(#tgb)"/></g>
+        <g class="top"><g clip-path="url(#ct)" transform="translate(-14 0)"><use href="#letters" fill="url(#tg)"/></g></g>
+        <rect class="seam" x="-66" y="47.2" width="562" height="1.8" fill="url(#seam)"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<header class="hd" id="hd">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Studio Tedo, torna all'inizio">
+      <svg viewBox="-70 -14 570 128" aria-hidden="true"><use href="#tedo"/></svg>
+      <small>Studio · Torino</small>
+    </a>
+    <nav class="nav" aria-label="Principale">
+      <a class="l" href="#servizi">Cosa facciamo</a>
+      <a class="l" href="#settori">Per chi</a>
+      <a class="l" href="#calcolo">Quanto risparmi</a>
+      <a class="l" href="#metodo">Metodo</a>
+      <a class="btn btn-p" href="#demo">Demo gratuita</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="aura" aria-hidden="true"><i class="a1"></i><i class="a2"></i><i class="a3"></i></div>
+    <div class="grain" aria-hidden="true"></div>
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">Studio digitale · Torino</span>
+        <h1>Software su misura, <em class="g">per come lavori tu.</em></h1>
+        <p class="lead">Siti, gestionali e automazioni costruiti su misura per la tua attività. Tu fai il tuo lavoro. Al resto pensa il software.</p>
+        <div class="actions">
+          <a class="btn btn-p" href="#demo">Richiedi la demo gratuita <span class="arr" aria-hidden="true">→</span></a>
+          <a class="btn btn-s" href="#servizi">Fai il tour</a>
+        </div>
+        <div class="hero-meta"><span>Demo gratuita e senza impegno</span><span>Risposta entro un giorno lavorativo</span></div>
+      </div>
+      <div class="mark-stage" aria-hidden="true">
+        <div class="orb"></div>
+        <svg class="big" viewBox="-70 -14 570 128"><use href="#tedo"/></svg>
+        <span class="caption">Siti · Gestionali · Automazioni</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- MANIFESTO -->
+  <section class="mani">
+    <div class="wrap">
+      <hr class="cut" style="margin-bottom:clamp(2.5rem,6vw,4.5rem)">
+      <div class="row">
+        <span class="eyebrow">Il nostro lavoro</span>
+        <p class="rv" id="mani">Ogni impresa ha un lavoro che ripete tutti i giorni. <b>Messaggi, ordini, documenti, conti, prenotazioni.</b> Noi lo prendiamo e <b>lo facciamo andare da solo.</b> Senza che tu debba diventare un tecnico.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVIZI / TOUR -->
+  <section class="sec" id="servizi" style="padding-top:clamp(2rem,5vw,3rem)">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Cosa facciamo</span>
+        <h2>Sette cose che possiamo <span class="g">togliere dalla tua giornata.</span></h2>
+      </div>
+      <div class="tour">
+        <ul class="svc-list" id="svcList"></ul>
+        <div class="phone-col">
+          <div class="phone" aria-live="polite">
+            <div class="screen" id="screen">
+              <div class="island"></div>
+              <div class="sb"><span>9:41</span><span class="dots">●●●</span></div>
+
+              <!-- 0 · Siti web -->
+              <div class="scr" data-i="0" aria-label="Esempio: sito con ordini online di una macelleria">
+                <div class="toast"><div class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 7"/></svg></div><div><b style="font-size:.76rem">Nuovo ordine online</b><div class="mut">Salsiccia 1 kg · ritiro 18:30</div></div></div>
+                <div class="shop-hero"><small>Macelleria · dal 1987</small><b>La carne buona, pronta quando arrivi.</b><span class="pill ac">Ordina e ritira</span></div>
+                <div class="c"><div class="rw"><div><b>Bombette</b><div class="mut">€ 18,90 / kg</div></div><span class="add">Aggiungi</span></div></div>
+                <div class="c"><div class="rw"><div><b>Fesa di vitello</b><div class="mut">€ 24,50 / kg</div></div><span class="add">Aggiungi</span></div></div>
+                <div class="c"><div class="rw"><div><b>Ritiro oggi</b><div class="mut">Scegli l'orario</div></div><span class="pill q">18:30</span></div></div>
+                <div class="sample">Dati di esempio</div>
+              </div>
+
+              <!-- 1 · Gestionali -->
+              <div class="scr" data-i="1" aria-label="Esempio: gestionale con incassi, scorte e turni">
+                <div class="hdr"><b>Oggi</b><span>ven 20 nov</span></div>
+                <div class="c"><span class="lab">Incassato</span><div class="v">€ 1.284</div><div class="bars"><i style="--h:40%"></i><i style="--h:62%"></i><i style="--h:48%"></i><i style="--h:75%"></i><i style="--h:58%"></i><i style="--h:90%" class="hi"></i><i style="--h:30%"></i></div></div>
+                <div class="c"><span class="lab">Scorte basse</span><div class="rw"><span>Imballi 40×60 · 30 pezzi</span><span class="pill wa">Riordina</span></div></div>
+                <div class="c"><span class="lab">Fattura n. 214</span><div class="rw"><span>Inviata al commercialista</span><span class="pill ok">Fatto</span></div></div>
+                <div class="c"><span class="lab">Turni settimana</span><div class="rw"><span>12 persone · generati</span><span class="pill ok">Fatto</span></div></div>
+                <div class="sample">Dati di esempio</div>
+              </div>
+
+              <!-- 2 · Assistenti AI -->
+              <div class="scr" data-i="2" aria-label="Esempio: assistente che fissa un appuntamento">
+                <div class="chat-h"><div class="av">ST</div><div><b style="font-size:.8rem">Studio legale</b><small>Assistente attivo 24/7</small></div></div>
+                <div class="bub in">Buonasera, avrei bisogno di una consulenza per un contratto d'affitto. Sabato ricevete?</div>
+                <div class="bub out">Buonasera! Sabato lo studio è chiuso, ma ho lunedì alle 10:00 o martedì alle 15:30. Quale preferisce?</div>
+                <div class="bub in">Martedì va benissimo.</div>
+                <div class="bub out">Fatto: martedì 15:30 in agenda. Le ho mandato via email l'elenco dei documenti da portare.</div>
+                <div class="c"><div class="rw"><div><span class="lab">Bozza preventivo</span><div>Pronta da rivedere</div></div><span class="pill q">Apri</span></div></div>
+                <div class="sample">Dati di esempio</div>
+              </div>
+
+              <!-- 3 · Documenti -->
+              <div class="scr" data-i="3" aria-label="Esempio: report automatico del lunedì">
+                <div class="hdr"><b>Report</b><span>lunedì 8:00</span></div>
+                <div class="c"><span class="lab">Documenti letti</span><div class="rw"><span>48 fatture · 3 contratti · 1 Excel</span><span class="pill ok">Fatto</span></div></div>
+                <div class="c"><span class="lab">Margine medio del mese</span><div class="v">31%</div><div class="meter"><i style="--w:62%"></i></div></div>
+                <div class="c"><span class="lab">3 pagamenti in ritardo</span><div class="rw"><span>Solleciti già scritti</span><span class="pill q">Rivedi</span></div></div>
+                <div class="c"><span class="lab">Report ai soci</span><div class="rw"><span>Inviato via email</span><span class="pill ok">Fatto</span></div></div>
+                <div class="sample">Dati di esempio</div>
+              </div>
+
+              <!-- 4 · Social -->
+              <div class="scr" data-i="4" aria-label="Esempio: post social in coda per una trattoria">
+                <div class="hdr"><b>Social</b><span>3 post in coda</span></div>
+                <div class="mut" style="padding:0 4px;font-family:var(--f-mono)">@trattoria.dalfaro</div>
+                <div class="c"><div class="post"><div class="th"></div><div style="flex:1;min-width:0"><span class="lab">Martedì 12:30</span><div>Piatto del giorno · Instagram</div></div><span class="pill q">In coda</span></div></div>
+                <div class="c"><div class="post"><div class="th b"></div><div style="flex:1;min-width:0"><span class="lab">Giovedì 19:00</span><div>Serata degustazione · Facebook</div></div><span class="pill q">In coda</span></div></div>
+                <div class="c"><span class="lab">Recensioni</span><div class="rw"><span>4 risposte scritte e inviate</span><span class="pill ok">Fatto</span></div></div>
+                <div class="sample">Dati di esempio</div>
+              </div>
+
+              <!-- 5 · Impianti -->
+              <div class="scr" data-i="5" aria-label="Esempio: gestione luci di un capannone">
+                <div class="hdr"><b>Impianto</b><span>Capannone A</span></div>
+                <div class="c"><span class="lab">Consumo di questo mese</span><div class="v" style="color:var(--ok)">−27%</div><div class="meter"><i style="--w:73%"></i></div><div class="mut">rispetto allo stesso mese dell'anno scorso</div></div>
+                <div class="c">
+                  <div class="zone"><div class="rw" style="gap:9px"><span class="lamp off"></span><div><b>Magazzino</b><div class="mut">Nessuno da 15 min · spengo</div></div></div></div>
+                  <div class="zone"><div class="rw" style="gap:9px"><span class="lamp dim"></span><div><b>Uffici</b><div class="mut">Luce naturale sufficiente</div></div></div></div>
+                  <div class="zone"><div class="rw" style="gap:9px"><span class="lamp on"></span><div><b>Area carico</b><div class="mut">Turno in corso</div></div></div></div>
+                </div>
+                <div class="sample">Dati di esempio</div>
+              </div>
+
+              <!-- 6 · App / prenotazioni -->
+              <div class="scr" data-i="6" aria-label="Esempio: prenotazione campi sportivi">
+                <div class="toast"><div class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 7"/></svg></div><div><b style="font-size:.76rem">Campo 2 · 20:00</b><div class="mut">Prenotato e pagato online</div></div></div>
+                <div class="hdr"><b>Campi stasera</b><span>6 fasce</span></div>
+                <div class="c"><div class="rw"><b>Campo 1 · calcio a 5</b><span class="mut">€ 60</span></div><div class="slots"><i class="b"></i><i></i><i class="b"></i><i class="b"></i><i></i><i></i></div><div class="hours"><span>18</span><span>19</span><span>20</span><span>21</span><span>22</span><span>23</span></div></div>
+                <div class="c"><div class="rw"><b>Campo 2 · calcio a 7</b><span class="mut">€ 84</span></div><div class="slots"><i></i><i class="b"></i><i class="me"></i><i class="b"></i><i class="b"></i><i></i></div><div class="hours"><span>18</span><span>19</span><span>20</span><span>21</span><span>22</span><span>23</span></div></div>
+                <div class="c"><span class="lab">Promemoria</span><div class="rw"><span>WhatsApp inviato ai giocatori</span><span class="pill ok">Fatto</span></div></div>
+                <div class="sample">Dati di esempio</div>
+              </div>
+            </div>
+          </div>
+          <div class="phone-dots" id="dots" role="tablist" aria-label="Schermate di esempio"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SETTORI -->
+  <section class="sec" id="settori" style="padding-top:clamp(2rem,5vw,4rem)">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Per chi</span>
+        <h2>Dalla piccola attività <span class="g">all'azienda strutturata.</span></h2>
+        <p class="lead">Niente pacchetti preconfezionati: ogni progetto è diverso e ogni demo nasce da zero, sulla tua realtà.</p>
+      </div>
+    </div>
+    <div class="sectors" aria-label="Settori con cui lavoriamo">
+      <div class="mq" id="mq1"></div>
+      <div class="mq r" id="mq2"></div>
+    </div>
+    <div class="wrap">
+      <div class="scale">
+        <div class="col">
+          <h3>Non dieci fornitori. <span class="g">Un solo studio.</span></h3>
+          <p class="lead">Il sito, il gestionale, l'assistente che risponde ai clienti, i social. Di solito sono quattro fornitori che non si parlano. Da noi è una persona sola che conosce la tua attività e collega tutto.</p>
+        </div>
+        <div class="one rv">
+          <span class="eyebrow">Un referente, tutto collegato</span>
+          <ul class="stack">
+            <li>Sito web <span class="pill ok">fatto</span></li>
+            <li>Gestionale <span class="pill ok">fatto</span></li>
+            <li>Assistente AI <span class="pill ok">fatto</span></li>
+            <li>Social <span class="pill ok">fatto</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CALCOLO -->
+  <section class="sec" id="calcolo">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Quanto risparmi</span>
+        <h2>Quanto ti costa fare <span class="g">tutto a mano?</span></h2>
+        <p class="lead">Sposta i cursori. È un calcolo semplice, ma di solito il numero sorprende.</p>
+      </div>
+      <div class="calc rv">
+        <div class="in">
+          <div class="fld"><div class="top"><label for="o1">Ore a settimana su lavori ripetitivi</label><output id="r1" for="o1">8 h</output></div><input type="range" id="o1" min="1" max="40" value="8"></div>
+          <div class="fld"><div class="top"><label for="o2">Quanto vale un'ora del tuo tempo</label><output id="r2" for="o2">€ 25</output></div><input type="range" id="o2" min="10" max="150" step="5" value="25"></div>
+          <div class="fld"><div class="top"><label for="o3">Persone che fanno questi lavori</label><output id="r3" for="o3">2</output></div><input type="range" id="o3" min="1" max="20" value="2"></div>
+          <p class="fine">Messaggi, prenotazioni, preventivi, fatture, inventario, post sui social, report: conta tutto.</p>
+        </div>
+        <div class="out" aria-live="polite">
+          <span class="eyebrow">Ogni anno spendi in lavoro ripetitivo circa</span>
+          <div><div class="big g" id="tot">€ 18.400</div><div class="unit">€ / anno · calcolato su 46 settimane lavorative</div></div>
+          <div class="week">
+            <div class="lg"><span><i style="background:var(--cyan)"></i>Ore ripetitive</span><span><i style="background:rgba(170,184,255,.25)"></i>Settimana da 40 ore</span></div>
+            <div class="wbar"><b id="wb" style="width:20%"></b></div>
+          </div>
+          <div class="days"><span>Sono più o meno</span><b id="days">92 giornate</b><span>che potresti dedicare a clienti, famiglia o crescita.</span></div>
+          <a class="btn btn-p" href="#demo" style="align-self:flex-start">Vediamo cosa possiamo togliere <span class="arr" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- METODO -->
+  <section class="sec" id="metodo">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Metodo</span>
+        <h2>Prima vedi. <span class="g">Poi decidi.</span></h2>
+        <p class="lead">Prima ti facciamo vedere il lavoro funzionante. Solo dopo parliamo di prezzo.</p>
+      </div>
+      <div class="steps" role="list">
+        <hr class="cut" aria-hidden="true">
+        <div class="step rv" role="listitem"><span class="node"></span><span class="n">Passo 01</span><h3>Ci racconti</h3><p>Compili il modulo in due minuti, oppure ci fai una chiamata se preferisci. Ci basta sapere come lavori e cosa ti porta via più tempo.</p></div>
+        <div class="step rv" role="listitem"><span class="node"></span><span class="n">Passo 02</span><h3>Costruiamo la demo</h3><p>Costruiamo da zero una demo funzionante sulla tua attività. Nessun modello preconfezionato. Gratis, senza impegno.</p><span class="pill ok">Gratis</span></div>
+        <div class="step rv" role="listitem"><span class="node"></span><span class="n">Passo 03</span><h3>Decidi tu</h3><p>Se ti convince la completiamo, la mettiamo online e ti seguiamo. Se no, non ci devi niente.</p></div>
+      </div>
+      <div class="promises">
+        <div class="promise"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg><h3>Un referente dedicato</h3><p>Una persona del team segue il tuo progetto dall'inizio alla fine e conosce la tua attività.</p></div>
+        <div class="promise"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M8 9h8M8 13h5"/></svg><h3>Pochi progetti alla volta</h3><p>Ne seguiamo pochi alla volta, per dare a ognuno l'attenzione che merita.</p></div>
+        <div class="promise"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg><h3>Tuo, per davvero</h3><p>Il software resta tuo. Ti spieghiamo come usarlo e restiamo a disposizione.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEMO -->
+  <section class="sec" id="demo">
+    <div class="wrap demo">
+      <div class="copy">
+        <span class="eyebrow">Demo gratuita</span>
+        <h2>Richiedi la tua <span class="g">demo gratuita.</span></h2>
+        <p class="lead">Raccontaci in due righe cosa fai. Ti ricontattiamo e prepariamo una demo costruita sulla tua attività.</p>
+        <ul class="ticks">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12l5 5L20 7"/></svg>Gratuita e senza impegno</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12l5 5L20 7"/></svg>Funzionante, non un disegno</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12l5 5L20 7"/></svg>Ti rispondiamo entro un giorno lavorativo</li>
+        </ul>
+        <div class="voice"><span>Preferisci parlarne a voce?</span><a href="tel:+393271956126">+39 327 195 6126</a></div>
+      </div>
+      <div class="win">
+        <div class="win-bar"><i></i><i></i><i></i><span>richiesta-demo · studio tedo</span></div>
+        <form id="lead" novalidate>
+          <div class="f"><label for="nome">Nome e cognome</label><input id="nome" name="nome" autocomplete="name" placeholder="Mario Rossi" required></div>
+          <div class="f"><label for="az">Nome dell'attività</label><input id="az" name="attivita" autocomplete="organization" placeholder="Macelleria Rossi" required></div>
+          <div class="f full"><label for="settore">Che tipo di attività è?</label><select id="settore" name="settore" required><option value="">Scegli…</option></select></div>
+          <fieldset class="f full"><legend>Cosa ti piacerebbe vedere funzionare? <span style="color:var(--faint)">(anche più di una)</span></legend><div class="chips" id="interessi"></div></fieldset>
+          <div class="f"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="mario@esempio.it" required></div>
+          <div class="f"><label for="tel">Telefono</label><input id="tel" name="telefono" type="tel" autocomplete="tel" inputmode="tel" placeholder="+39 …"></div>
+          <div class="f full"><label for="msg">Cosa ti porta via più tempo, oggi?</label><textarea id="msg" name="messaggio" placeholder="Es. rispondo a mano a decine di messaggi per gli ordini, ogni sera aggiorno un Excel…"></textarea></div>
+          <div class="f-foot">
+            <p class="err" id="err" role="alert"></p>
+            <button class="btn btn-p" type="submit">Richiedi la demo gratuita <span class="arr" aria-hidden="true">→</span></button>
+            <small>Usiamo i tuoi dati solo per ricontattarti su questa richiesta. <a href="/privacy">Privacy</a></small>
+          </div>
+        </form>
+        <div class="done" id="done" hidden>
+          <div class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12l5 5L20 7"/></svg></div>
+          <h3 style="font-size:1.4rem">Richiesta pronta.</h3>
+          <p id="doneMsg">Ti ricontattiamo entro un giorno lavorativo per fissare la demo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="ft">
+  <div class="wrap">
+    <svg class="giant" viewBox="-70 -14 570 128" aria-hidden="true"><use href="#tedo"/></svg>
+    <div class="ft-grid">
+      <div class="col"><b>© 2026 Studio Tedo · Torino</b><span>Siti · Gestionali · Automazioni su misura</span></div>
+      <div class="col"><span>Edoardo Maria Gherner · Lungo Dora Siena 100/A, 10153 Torino</span><span><a href="mailto:informazioni.tedo@gmail.com">informazioni.tedo@gmail.com</a> · <a href="tel:+393271956126">+39 327 195 6126</a></span></div>
+      <div class="col"><a href="/termini">Termini e condizioni</a><a href="/privacy">Privacy</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  document.documentElement.classList.add('js');
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* header state */
+  var hd = document.getElementById('hd');
+  var onScroll = function(){ hd.classList.toggle('on', scrollY > 12); };
+  addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+  /* ---------- services tour ---------- */
+  var ICONS = {
+    web:'<rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01"/>',
+    db:'<ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/>',
+    ai:'<path d="M4 6a3 3 0 013-3h10a3 3 0 013 3v8a3 3 0 01-3 3H10l-5 4v-4.5A3 3 0 014 14z"/><path d="M9 10h.01M12 10h.01M15 10h.01"/>',
+    doc:'<path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/>',
+    soc:'<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17 7h.01"/>',
+    nrg:'<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>',
+    app:'<rect x="6" y="2" width="12" height="20" rx="3"/><path d="M10 18h4"/>'
+  };
+  var SVC = [
+    ['Siti web ed e‑commerce','Pensati per far arrivare richieste e vendite, non solo per essere belli.',['Siti web','E‑commerce','Ordini online'],'web'],
+    ['Gestionali su misura','Clienti, magazzino, appuntamenti, fatture: costruiti attorno al vostro modo di lavorare.',['Magazzino','Fatture','Turni'],'db'],
+    ['Assistenti e chatbot AI','Rispondono su WhatsApp, via email e sul sito, fissano appuntamenti, smistano le richieste.',['WhatsApp','Email','Agenda'],'ai'],
+    ['Documenti e report automatici','Lettura di fatture e contratti, preventivi che si compilano da soli, report periodici.',['Analisi documenti','Report automatici','Excel','Contratti'],'doc'],
+    ['Gestione social','Li seguiamo noi oppure li automatizziamo con software dedicati: contenuti, calendario e recensioni.',['Instagram','Facebook','Recensioni Google'],'soc'],
+    ['Impianti ed energia','Software per gestire luci e impianti e ridurre gli sprechi.',['Impianti','Sensori','Riduzione consumi'],'nrg'],
+    ['App e software su misura','Qualunque processo ripetitivo, collegato agli strumenti che usate già.',['Prenotazioni','Pagamenti online','Promemoria','Integrazioni'],'app']
+  ];
+  var list = document.getElementById('svcList'), dots = document.getElementById('dots');
+  var scrs = document.querySelectorAll('.scr');
+  SVC.forEach(function(s,i){
+    var li = document.createElement('li'); li.className = 'svc';
+    li.innerHTML = '<button type="button" aria-expanded="false" aria-controls="sb'+i+'"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+ICONS[s[3]]+'</svg></span><span class="t">'+s[0]+'</span><span class="k">0'+(i+1)+'/07</span></button>'+
+      '<div class="body" id="sb'+i+'"><div><p>'+s[1]+'</p><div class="tags">'+s[2].map(function(t){return '<span class="tag">'+t+'</span>';}).join('')+'</div></div></div>';
+    li.querySelector('button').addEventListener('click', function(){ user = true; go(i); });
+    list.appendChild(li);
+    var d = document.createElement('button'); d.type='button'; d.setAttribute('role','tab'); d.setAttribute('aria-label', s[0]);
+    d.addEventListener('click', function(){ user = true; go(i); });
+    dots.appendChild(d);
+  });
+  var custom = document.createElement('li');
+  custom.innerHTML = '<div class="custom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 5v14M5 12h14"/></svg><div><b>E se non c\'è ancora, lo costruiamo noi.</b><div style="font-size:.92rem">Chatbot, integrazioni tra programmi, traduzioni, app interne: se si ripete, si può automatizzare.</div></div></div>';
+  list.appendChild(custom);
+
+  var items = list.querySelectorAll('.svc'), dotEls = dots.querySelectorAll('button');
+  var cur = -1, user = false, t0 = 0, DUR = 6000, visible = false, raf;
+  function go(i){
+    cur = i; t0 = performance.now();
+    items.forEach(function(el,k){ var on = k===i; el.classList.toggle('on', on); el.querySelector('button').setAttribute('aria-expanded', on); el.style.setProperty('--p', user||reduce ? 1 : 0); });
+    dotEls.forEach(function(el,k){ el.classList.toggle('on', k===i); el.setAttribute('aria-selected', k===i); });
+    scrs.forEach(function(el){ el.classList.toggle('on', +el.dataset.i === i); });
+  }
+  function tick(now){
+    if (visible && !user && !reduce){
+      var p = Math.min(1,(now - t0)/DUR);
+      items[cur].style.setProperty('--p', p);
+      if (p >= 1) go((cur+1) % SVC.length);
+    } else if (!visible) { t0 = now - (parseFloat(items[cur].style.getPropertyValue('--p'))||0)*DUR; }
+    raf = requestAnimationFrame(tick);
+  }
+  go(0);
+  if ('IntersectionObserver' in window){
+    new IntersectionObserver(function(e){ visible = e[0].isIntersecting; }, {threshold:.35}).observe(document.querySelector('.tour'));
+  }
+  raf = requestAnimationFrame(tick);
+
+  /* ---------- sectors marquee ---------- */
+  var S1 = ['Studi professionali','Aziende manifatturiere','Hotel e ospitalità','Centri sportivi','Ristorazione','Studi medici','Logistica','Immobiliare'];
+  var S2 = ['Retail e negozi','Imprese edili','Botteghe alimentari','Beauty e benessere','Officine e carrozzerie','Distribuzione','Formazione','Startup'];
+  function fill(id, arr){
+    var el = document.getElementById(id), html = arr.map(function(s){return '<span>'+s+'</span>';}).join('');
+    el.innerHTML = html + (reduce ? '' : html.replace(/<span>/g,'<span aria-hidden="true">'));
+  }
+  fill('mq1', S1); fill('mq2', S2);
+
+  /* ---------- calculator ---------- */
+  var o1=document.getElementById('o1'), o2=document.getElementById('o2'), o3=document.getElementById('o3');
+  var fmt = new Intl.NumberFormat('it-IT');
+  var shown = 0, target = 0, anim;
+  function paint(r){ r.style.setProperty('--f', ((r.value - r.min)/(r.max - r.min)*100)+'%'); }
+  function calc(){
+    var h=+o1.value, v=+o2.value, n=+o3.value;
+    [o1,o2,o3].forEach(paint);
+    document.getElementById('r1').textContent = h+' h';
+    document.getElementById('r2').textContent = '€ '+v;
+    document.getElementById('r3').textContent = n;
+    target = h*v*n*46;
+    document.getElementById('wb').style.width = Math.min(100, h/40*100)+'%';
+    var d = Math.round(h*n*46/8);
+    document.getElementById('days').textContent = fmt.format(d) + (d===1?' giornata':' giornate');
+    cancelAnimationFrame(anim);
+    var from = shown, st = performance.now();
+    (function step(now){
+      var p = reduce ? 1 : Math.min(1,(now-st)/500), e = 1-Math.pow(1-p,3);
+      shown = Math.round(from + (target-from)*e);
+      document.getElementById('tot').textContent = '€ '+fmt.format(shown);
+      if (p<1) anim = requestAnimationFrame(step);
+    })(st);
+  }
+  [o1,o2,o3].forEach(function(r){ r.addEventListener('input', calc); });
+  shown = 8*25*2*46; calc();
+
+  /* ---------- form ---------- */
+  var SETT = ['Negozio','Ristorazione','Studio professionale','Sport e benessere','Artigiano o officina','Azienda','Altro'];
+  var INT = ['Sito web','Gestionale','Assistente AI','Documenti e report','Gestione social','Prenotazioni','Impianti ed energia','Non so ancora'];
+  var sel = document.getElementById('settore');
+  SETT.forEach(function(s){ var o=document.createElement('option'); o.value=o.textContent=s; sel.appendChild(o); });
+  var chips = document.getElementById('interessi');
+  INT.forEach(function(s,i){ chips.insertAdjacentHTML('beforeend','<label class="chip"><input type="checkbox" id="int'+i+'" name="interessi" value="'+s+'"><span>'+s+'</span></label>'); });
+
+  var LEAD_ENDPOINT = '';           /* imposta qui l'endpoint (es. Cloudflare Worker / Formspree) */
+  var MAIL = 'informazioni.tedo@gmail.com';
+  var form = document.getElementById('lead'), err = document.getElementById('err');
+  form.addEventListener('input', function(e){ var f=e.target.closest('.f'); if(f) f.classList.remove('bad'); err.textContent=''; });
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var bad = [];
+    ['nome','az','settore','email'].forEach(function(id){
+      var el = document.getElementById(id), ok = el.value.trim() !== '' && (id!=='email' || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value.trim()));
+      el.closest('.f').classList.toggle('bad', !ok); if(!ok) bad.push(el);
+    });
+    if (bad.length){ err.textContent = bad.some(function(b){return b.id==='email' && b.value;}) ? 'Controlla l\'indirizzo email: sembra incompleto.' : 'Compila i campi evidenziati, poi invia di nuovo.'; bad[0].focus(); return; }
+    var fd = new FormData(form), data = {};
+    fd.forEach(function(v,k){ if(k==='interessi'){ (data[k]=data[k]||[]).push(v);} else data[k]=v; });
+    var btn = form.querySelector('button[type=submit]'); btn.disabled = true; btn.firstChild.textContent = 'Invio in corso… ';
+    function finish(viaMail){
+      form.hidden = true; document.getElementById('done').hidden = false;
+      if (viaMail) document.getElementById('doneMsg').innerHTML = 'Si è aperta la tua app di posta con la richiesta già scritta: premi Invia per mandarla. Se non si è aperta, scrivici a <code>'+MAIL+'</code> o chiamaci al <code>+39 327 195 6126</code>.';
+    }
+    if (LEAD_ENDPOINT){
+      fetch(LEAD_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})
+        .then(function(r){ if(!r.ok) throw 0; finish(false); })
+        .catch(function(){ btn.disabled=false; btn.firstChild.textContent='Richiedi la demo gratuita '; err.textContent='Non siamo riusciti a inviare la richiesta. Riprova, oppure chiamaci al +39 327 195 6126.'; });
+    } else {
+      var body = 'Nome: '+data.nome+'\nAttività: '+data.attivita+' ('+data.settore+')\nInteressi: '+(data.interessi||['—']).join(', ')+'\nEmail: '+data.email+'\nTelefono: '+(data.telefono||'—')+'\n\n'+(data.messaggio||'');
+      location.href = 'mailto:'+MAIL+'?subject='+encodeURIComponent('Richiesta demo · '+data.attivita)+'&body='+encodeURIComponent(body);
+      finish(true);
+    }
+  });
+
+  /* ---------- reveal on scroll (content stays visible without JS / observer) ---------- */
+  if ('IntersectionObserver' in window && !reduce){
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.remove('pre'); io.unobserve(e.target);} }); },{rootMargin:'0px 0px -8% 0px'});
+    document.querySelectorAll('.rv').forEach(function(el){
+      var r = el.getBoundingClientRect(); if (r.top > innerHeight){ el.classList.add('pre'); io.observe(el); }
+    });
+  }
+})();
+</script>
+</body>
+</html>
